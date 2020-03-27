@@ -10,8 +10,12 @@ use serenity::framework::standard::{
     }
 };
 
+pub mod voice;
+
+// use crate::voice::ping::PING_COMMAND;
+
 #[group]
-#[commands(ping)]
+// #[commands(ping)]
 struct General;
 
 use std::env;
@@ -32,11 +36,4 @@ fn main() {
     if let Err(why) = client.start() {
         println!("An error occurred while running the client: {:?}", why);
     }
-}
-
-#[command]
-fn ping(ctx: &mut Context, msg: &Message) -> CommandResult {
-    msg.reply(ctx, "Pong!")?;
-
-    Ok(())
 }

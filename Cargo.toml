@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 serenity = "*"
+parking_lot = "0.10.0"
