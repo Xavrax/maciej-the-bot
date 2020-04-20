@@ -27,8 +27,15 @@ use discord::commands::{
 struct General;
 
 fn main() {
-    let token = "tmp";
-    let mut client = Client::new(&token, Handler).expect("Err creating client");
+    let token_key = "MACIEJ_TOKEN";
+    let prefix_key = "MACIEJ_PREFIX";
+
+    let token = env::var(token_key)
+        .expect("Expected a token in the environment");
+    let prefix = env::var(prefix_key)
+        .expect("Expected a prefix in the environment");
+    let mut client = Client::new(&token, Handler)
+        .expect("Err creating client");
 
     {
         let mut data = client.data.write();
@@ -37,7 +44,7 @@ fn main() {
 
     client.with_framework(StandardFramework::new()
         .configure(|c| c
-            .prefix("~"))
+            .prefix(prefix))
         .group(&GENERAL_GROUP));
 
     let _ = client.start().map_err(|why| println!("Client ended: {:?}", why));
