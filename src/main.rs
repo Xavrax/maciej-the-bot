@@ -19,11 +19,11 @@ use discord::commands::{
     audio::{DEAFEN_COMMAND, UNDEAFEN_COMMAND, MUTE_COMMAND, UNMUTE_COMMAND},
     channeling::{JOIN_COMMAND, LEAVE_COMMAND},
     player::{PLAY_COMMAND},
-    utils::{PING_COMMAND}
+    utils::{PING_COMMAND, PREFIX_COMMAND}
 };
 
 #[group]
-#[commands(deafen, join, leave, mute, play, ping, undeafen, unmute)]
+#[commands(deafen, join, leave, mute, play, ping, undeafen, unmute, prefix)]
 struct General;
 
 fn main() {
@@ -44,7 +44,7 @@ fn main() {
 
     client.with_framework(StandardFramework::new()
         .configure(|c| c
-            .prefix(prefix))
+            .prefix(&prefix))
         .group(&GENERAL_GROUP));
 
     let _ = client.start().map_err(|why| println!("Client ended: {:?}", why));
