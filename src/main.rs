@@ -27,13 +27,9 @@ use discord::commands::{
 struct General;
 
 fn main() {
-    // Configure the client with your Discord bot token in the environment.
     let token = "tmp";
     let mut client = Client::new(&token, Handler).expect("Err creating client");
 
-    // Obtain a lock to the data owned by the client, and insert the client's
-    // voice manager into it. This allows the voice manager to be accessible by
-    // event handlers and framework commands.
     {
         let mut data = client.data.write();
         data.insert::<VoiceManager>(Arc::clone(&client.voice_manager));
