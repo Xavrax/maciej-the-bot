@@ -1,3 +1,4 @@
+#[macro_use]
 // Modules
 mod discord;
 mod utils;
