@@ -15,20 +15,14 @@ use serenity::{
 
 #[command]
 pub fn play(ctx: &mut Context, msg: &Message, mut args: Args) -> CommandResult {
-    let url = match args.single::<String>() {
-        Ok(url) => url,
+    let impl_song = match args.single::<String>() {
+        Ok(impl_song) => impl_song,
         Err(_) => {
             check_msg(msg.channel_id.say(&ctx.http, "Must provide a URL to a video or audio"));
 
             return Ok(());
         },
     };
-
-    if !url.starts_with("http") {
-        check_msg(msg.channel_id.say(&ctx.http, "Must provide a valid URL"));
-
-        return Ok(());
-    }
 
     let guild_id = match ctx.cache.read().guild_channel(msg.channel_id) {
         Some(channel) => channel.read().guild_id,
@@ -43,7 +37,13 @@ pub fn play(ctx: &mut Context, msg: &Message, mut args: Args) -> CommandResult {
     let mut manager = manager_lock.lock();
 
     if let Some(handler) = manager.get_mut(guild_id) {
-        let source = match voice::ytdl(&url) {
+        let audio = if impl_song.starts_with("http") {
+            voice::ytdl(&impl_song)
+        } else {
+            voice::ytdl_search(&impl_song)
+        };
+
+        let source = match audio {
             Ok(source) => source,
             Err(why) => {
                 println!("Err starting source: {:?}", why);
