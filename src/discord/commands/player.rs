@@ -12,6 +12,8 @@ use serenity::{
         macros::command
     }
 };
+use crate::utils::song_queue::song_queue;
+use crate::utils::model::song_data::SongData;
 
 #[command]
 pub fn play(ctx: &mut Context, msg: &Message, mut args: Args) -> CommandResult {
@@ -24,42 +26,45 @@ pub fn play(ctx: &mut Context, msg: &Message, mut args: Args) -> CommandResult {
         },
     };
 
-    let guild_id = match ctx.cache.read().guild_channel(msg.channel_id) {
-        Some(channel) => channel.read().guild_id,
-        None => {
-            check_msg(msg.channel_id.say(&ctx.http, "Error finding channel info"));
+    // let guild_id = match ctx.cache.read().guild_channel(msg.channel_id) {
+    //     Some(channel) => channel.read().guild_id,
+    //     None => {
+    //         check_msg(msg.channel_id.say(&ctx.http, "Error finding channel info"));
+    //
+    //         return Ok(());
+    //     },
+    // };
+    //
+    // let manager_lock = ctx.data.read().get::<VoiceManager>().cloned().expect("Expected VoiceManager in ShareMap.");
+    // let mut manager = manager_lock.lock();
 
-            return Ok(());
-        },
-    };
+    // if let Some(handler) = manager.get_mut(guild_id) {
+    //     let audio = if impl_song.starts_with("http") {
+    //         voice::ytdl(&impl_song)
+    //     } else {
+    //         voice::ytdl_search(&impl_song)
+    //     };
+    //
+    //     let source = match audio {
+    //         Ok(source) => source,
+    //         Err(why) => {
+    //             println!("Err starting source: {:?}", why);
+    //
+    //             check_msg(msg.channel_id.say(&ctx.http, "Error sourcing ffmpeg"));
+    //
+    //             return Ok(());
+    //         },
+    //     };
 
-    let manager_lock = ctx.data.read().get::<VoiceManager>().cloned().expect("Expected VoiceManager in ShareMap.");
-    let mut manager = manager_lock.lock();
+        // handler.play(source);
+        song_queue().push_back(
+            SongData::new(impl_song, ctx.clone(), msg.clone())
+        );
 
-    if let Some(handler) = manager.get_mut(guild_id) {
-        let audio = if impl_song.starts_with("http") {
-            voice::ytdl(&impl_song)
-        } else {
-            voice::ytdl_search(&impl_song)
-        };
-
-        let source = match audio {
-            Ok(source) => source,
-            Err(why) => {
-                println!("Err starting source: {:?}", why);
-
-                check_msg(msg.channel_id.say(&ctx.http, "Error sourcing ffmpeg"));
-
-                return Ok(());
-            },
-        };
-
-        handler.play(source);
-
-        check_msg(msg.channel_id.say(&ctx.http, "Playing song"));
-    } else {
-        check_msg(msg.channel_id.say(&ctx.http, "Not in a voice channel to play in"));
-    }
+    //     check_msg(msg.channel_id.say(&ctx.http, "Playing song"));
+    // } else {
+    //     check_msg(msg.channel_id.say(&ctx.http, "Not in a voice channel to play in"));
+    // }
 
     Ok(())
 }

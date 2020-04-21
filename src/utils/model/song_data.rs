@@ -1,17 +1,19 @@
 use serenity::voice::AudioSource;
+use serenity::model::prelude::Message;
+use serenity::prelude::Context;
 
 pub struct SongData {
     pub info : String,
-    pub added_by : String,
-    pub audio : Box<dyn AudioSource>
+    pub ctx : Context,
+    pub msg : Message,
 }
 
 impl SongData {
-    pub fn new(info : String, added_by : String, audio : Box<dyn AudioSource>) -> SongData {
+    pub fn new(info : String, ctx : Context, msg : Message) -> SongData {
         SongData{
             info,
-            added_by,
-            audio
+            ctx,
+            msg
         }
     }
 }
