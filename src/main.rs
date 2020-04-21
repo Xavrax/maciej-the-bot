@@ -114,7 +114,7 @@ fn player_job() {
 
             current_song = handler.play_returning(source);
 
-            check_msg(new_song.msg.channel_id.say(&new_song.ctx.http, "Playing song"));
+            check_msg(new_song.msg.channel_id.say(&new_song.ctx.http, format!("Playing song {}", new_song.info)));
         } else {
             check_msg(new_song.msg.channel_id.say(&new_song.ctx.http, "Not in a voice channel to play in"));
         }
