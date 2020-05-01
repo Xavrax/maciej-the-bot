@@ -40,3 +40,25 @@ pub fn skip(ctx: &mut Context, msg: &Message) -> CommandResult {
 
     Ok(())
 }
+
+#[command]
+pub fn pause(ctx: &mut Context, msg: &Message) -> CommandResult {
+    check_msg(msg.channel_id.say(&ctx.http, "Pausing..."));
+
+    if !current_song().audio.lock().finished {
+        current_song().audio.lock().pause();
+    }
+
+    Ok(())
+}
+
+#[command]
+pub fn resume(ctx: &mut Context, msg: &Message) -> CommandResult {
+    check_msg(msg.channel_id.say(&ctx.http, "Resuming..."));
+
+    if !current_song().audio.lock().finished {
+        current_song().audio.lock().play();
+    }
+
+    Ok(())
+}
