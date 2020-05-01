@@ -12,7 +12,7 @@ use serenity::{
         macros::command
     }
 };
-use crate::utils::song_queue::song_queue;
+use crate::utils::global::song_queue;
 use crate::utils::model::song_data::SongData;
 
 #[command]

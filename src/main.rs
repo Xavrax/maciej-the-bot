@@ -19,7 +19,7 @@ use discord::commands::{
     player::{PLAY_COMMAND},
     utils::{PING_COMMAND, PREFIX_COMMAND}
 };
-use crate::utils::song_queue::{is_working, song_queue};
+use crate::utils::global::{is_working, song_queue, lazy_init, current_song};
 use serenity::voice::{LockedAudio, Audio};
 use crate::discord::model::errors::check_msg;
 
@@ -30,6 +30,8 @@ struct General;
 fn main() {
     let token_key = "MACIEJ_TOKEN";
     let prefix_key = "MACIEJ_PREFIX";
+
+    lazy_init();
 
     let token = env::var(token_key)
         .expect("Expected a token in the environment");
@@ -57,22 +59,12 @@ fn main() {
 }
 
 fn player_job() {
-    // dummy song
-    let mut current_song = Arc::new(
-        Mutex::new(
-            Audio::new(
-                voice::ytdl("https://www.youtube.com/watch?v=0k60dfpdRy0").unwrap()
-            )
-        )
-    );
-    (*current_song).lock().finished = true;
-
     while *is_working() {
         if song_queue().is_empty() {
             thread::sleep(Duration::from_secs(1));
             continue;
         }
-        if !current_song.lock().finished {
+        if !current_song().audio.lock().finished {
             thread::sleep(Duration::from_secs(1));
             continue;
         }
@@ -112,7 +104,8 @@ fn player_job() {
                 },
             };
 
-            current_song = handler.play_returning(source);
+            current_song().added_by = new_song.msg.author.name.clone();
+            current_song().audio = handler.play_returning(source);
 
             check_msg(new_song.msg.channel_id.say(&new_song.ctx.http, format!("Playing song {}", new_song.info)));
         } else {
