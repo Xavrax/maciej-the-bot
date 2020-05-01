@@ -68,7 +68,14 @@ pub fn resume(ctx: &mut Context, msg: &Message) -> CommandResult {
 
 #[command]
 pub fn now(ctx: &mut Context, msg: &Message) -> CommandResult {
-    check_msg(msg.channel_id.say(&ctx.http, format!("Now playing: {} added by {}", current_song().info, current_song().added_by)));
+    let info = current_song().info.clone();
+    let added_by = current_song().added_by.clone();
+
+    if !current_song().audio.lock().finished {
+        check_msg(msg.channel_id.say(&ctx.http, format!("Now playing: {} *(added by {})*", info, added_by)));
+    } else {
+        check_msg(msg.channel_id.say(&ctx.http, "Nothing is playing..."));
+    }
 
     Ok(())
 }
@@ -80,7 +87,7 @@ pub fn queue(ctx: &mut Context, msg: &Message) -> CommandResult {
     song_queue()
         .iter()
         .for_each(|song| {
-            answer = format!("{}{}\n", answer, song.info)
+            answer = format!("{}{} *(added by {})*\n", answer, song.info.clone(), song.msg.author.name.clone());
         });
 
     check_msg(msg.channel_id.say(&ctx.http, answer));
