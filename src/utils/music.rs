@@ -40,6 +40,7 @@ pub fn play_next() {
         };
 
         current_song().added_by = new_song.msg.author.name.clone();
+        current_song().info = new_song.info.clone();
         current_song().audio = handler.play_only(source);
 
         check_msg(new_song.msg.channel_id.say(&new_song.ctx.http, format!("Playing song {}", new_song.info)));

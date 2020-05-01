@@ -24,7 +24,8 @@ lazy_static! {
                     )
                 )
             ),
-            String::from("None")
+            String::from("None"),
+            String::from("Nothing")
         )
     );
 }

@@ -13,6 +13,9 @@ use serenity::{
 use crate::utils::global::{song_queue, current_song};
 use crate::utils::model::song_data::SongData;
 use crate::utils::music::play_next;
+use rand::thread_rng;
+use rand::seq::SliceRandom;
+use std::collections::VecDeque;
 
 #[command]
 pub fn play(ctx: &mut Context, msg: &Message, mut args: Args) -> CommandResult {
@@ -58,6 +61,43 @@ pub fn resume(ctx: &mut Context, msg: &Message) -> CommandResult {
 
     if !current_song().audio.lock().finished {
         current_song().audio.lock().play();
+    }
+
+    Ok(())
+}
+
+#[command]
+pub fn now(ctx: &mut Context, msg: &Message) -> CommandResult {
+    check_msg(msg.channel_id.say(&ctx.http, format!("Now playing: {} added by {}", current_song().info, current_song().added_by)));
+
+    Ok(())
+}
+
+#[command]
+pub fn queue(ctx: &mut Context, msg: &Message) -> CommandResult {
+    let mut answer = String::from("Queue:\n");
+
+    song_queue()
+        .iter()
+        .for_each(|song| {
+            answer = format!("{}{}\n", answer, song.info)
+        });
+
+    check_msg(msg.channel_id.say(&ctx.http, answer));
+    Ok(())
+}
+
+#[command]
+pub fn shuffle(ctx: &mut Context, msg: &Message) -> CommandResult {
+    check_msg(msg.channel_id.say(&ctx.http, "Shuffling..."));
+
+    let mut tmp = Vec::new();
+    while !song_queue().is_empty() {
+        tmp.push(song_queue().pop_front().unwrap());
+    }
+    tmp.shuffle(&mut thread_rng());
+    while !tmp.is_empty() {
+        song_queue().push_back(tmp.pop().unwrap());
     }
 
     Ok(())
