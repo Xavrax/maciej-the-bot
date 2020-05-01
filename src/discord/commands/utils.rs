@@ -9,10 +9,11 @@ use serenity::{
         Args
     }
 };
+use crate::discord::model::messages::say;
 
 #[command]
 pub fn ping(context: &mut Context, msg: &Message) -> CommandResult {
-    check_msg(msg.channel_id.say(&context.http, "Pong!"));
+    check_msg(msg.channel_id.say(&context.http, say("Pong!")));
 
     Ok(())
 }
@@ -22,7 +23,7 @@ pub fn prefix(ctx: &mut Context, msg: &Message, mut args: Args) -> CommandResult
     let prefix = match args.single::<String>() {
         Ok(prefix) => prefix,
         Err(_) => {
-            check_msg(msg.channel_id.say(&ctx.http, "Must provide a prefix"));
+            check_msg(msg.channel_id.say(&ctx.http, say("Must provide a prefix")));
 
             return Ok(());
         },
@@ -35,7 +36,7 @@ pub fn prefix(ctx: &mut Context, msg: &Message, mut args: Args) -> CommandResult
 
 #[command]
 pub fn help(context: &mut Context, msg: &Message) -> CommandResult {
-    check_msg(msg.channel_id.say(&context.http, "here will be help message!"));
+    check_msg(msg.channel_id.say(&context.http, say("here will be help message!")));
 
     Ok(())
 }
