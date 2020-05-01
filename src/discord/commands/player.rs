@@ -1,11 +1,9 @@
 use crate::discord::model::{
-    managers::VoiceManager,
     errors::check_msg
 };
 use serenity::{
     prelude::Context,
     model::prelude::Message,
-    voice,
     framework::standard::{
         Args,
         CommandResult,
@@ -24,6 +22,15 @@ pub fn play(ctx: &mut Context, msg: &Message, mut args: Args) -> CommandResult {
     );
 
     check_msg(msg.channel_id.say(&ctx.http, format!("Song {} added to queue!", impl_song.to_string())));
+
+    Ok(())
+}
+
+#[command]
+pub fn skip(ctx: &mut Context, msg: &Message) -> CommandResult {
+    check_msg(msg.channel_id.say(&ctx.http, "Skipping..."));
+
+    // current_song().audio
 
     Ok(())
 }
