@@ -32,3 +32,10 @@ pub fn prefix(ctx: &mut Context, msg: &Message, mut args: Args) -> CommandResult
 
     Ok(())
 }
+
+#[command]
+pub fn help(context: &mut Context, msg: &Message) -> CommandResult {
+    check_msg(msg.channel_id.say(&context.http, "here will be help message!"));
+
+    Ok(())
+}

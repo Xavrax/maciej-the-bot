@@ -16,14 +16,31 @@ use serenity::{prelude::*, framework::{
 use discord::commands::{
     audio::{DEAFEN_COMMAND, UNDEAFEN_COMMAND, MUTE_COMMAND, UNMUTE_COMMAND},
     channeling::{JOIN_COMMAND, LEAVE_COMMAND},
-    player::{PLAY_COMMAND, SKIP_COMMAND, PAUSE_COMMAND, RESUME_COMMAND},
-    utils::{PING_COMMAND, PREFIX_COMMAND}
+    player::{PLAY_COMMAND, SKIP_COMMAND, PAUSE_COMMAND, RESUME_COMMAND, NOW_COMMAND, QUEUE_COMMAND, SHUFFLE_COMMAND},
+    utils::{PING_COMMAND, PREFIX_COMMAND, HELP_COMMAND}
 };
 use crate::utils::global::{is_working, song_queue, lazy_init, current_song};
 use crate::utils::music::play_next;
 
 #[group]
-#[commands(deafen, join, leave, mute, play, ping, undeafen, unmute, prefix, skip, pause, resume)]
+#[commands(
+    deafen,
+    join,
+    leave,
+    mute,
+    play,
+    ping,
+    undeafen,
+    unmute,
+    prefix,
+    skip,
+    pause,
+    resume,
+    now,
+    queue,
+    shuffle,
+    help
+)]
 struct General;
 
 fn main() {
