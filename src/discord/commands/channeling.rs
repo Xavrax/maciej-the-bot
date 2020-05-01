@@ -13,6 +13,7 @@ use serenity::{
         macros::command
     }
 };
+use crate::utils::global::current_song;
 
 #[command]
 pub fn join(ctx: &mut Context, msg: &Message) -> CommandResult {
@@ -70,6 +71,11 @@ pub fn leave(ctx: &mut Context, msg: &Message) -> CommandResult {
     let has_handler = manager.get(guild_id).is_some();
 
     if has_handler {
+        if !current_song().audio.lock().finished {
+            current_song().audio.lock().pause();
+            current_song().audio.lock().finished = true;
+        }
+
         manager.remove(guild_id);
 
         check_msg(msg.channel_id.say(&ctx.http, "Left voice channel"));
