@@ -5,7 +5,6 @@ mod help;
 
 #[derive(WorldInit, Default)]
 pub struct ScenarioEnvironment {
-    bin: Option<tokio::process::Child>,
     output: String,
 }
 

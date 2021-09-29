@@ -8,22 +8,15 @@ use std::str::from_utf8;
 
 #[when("binary is ran with \"--help\" flag")]
 async fn binary_with_help_flag(env: &mut ScenarioEnvironment) {
-    env.bin = Some(
-        tokio::process::Command::new(std::env!("CARGO_BIN_EXE_maciej-the-bot"))
-            .args(&["--help"])
-            .kill_on_drop(true)
-            .stdin(Stdio::inherit())
-            .spawn()
-            .unwrap(),
-    );
+    let mut output = tokio::process::Command::new(std::env!("CARGO_BIN_EXE_maciej-the-bot"))
+        .args(&["--help"])
+        .kill_on_drop(true)
+        .output()
+        .await
+        .unwrap()
+        .stdout;
 
-    let mut bin = env.bin.take().unwrap();
-    bin.wait();
-
-    let mut content = vec![];
-    bin.stdout.take().unwrap().read_to_end(&mut content);
-
-    env.output = from_utf8(&content).unwrap().to_owned();
+    env.output = from_utf8(&output).unwrap().to_owned();
 }
 
 #[then("message should include \"help.txt\"")]
