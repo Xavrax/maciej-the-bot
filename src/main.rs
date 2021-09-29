@@ -9,7 +9,8 @@ async fn help() -> Result<()> {
         .unwrap();
 
     let mut content = vec![];
-    help_file.read_to_end(&mut content).await;
+    help_file.read_to_end(&mut content).await?;
+
     println!("{}", from_utf8(&content)?);
 
     Ok(())
@@ -17,7 +18,7 @@ async fn help() -> Result<()> {
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    help().await;
+    help().await?;
 
     Ok(())
 }
