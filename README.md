@@ -31,4 +31,4 @@ cargo build
 ## Bot's commands
 
 Is it possible to check all supported commands by running binary with `--help` flag or calling `help` command
-from discord chat.
+from discord chat or just take a look at [help file](help.txt).
