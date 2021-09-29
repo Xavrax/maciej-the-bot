@@ -32,3 +32,8 @@ cargo build
 
 Is it possible to check all supported commands by running binary with `--help` flag or calling `help` command
 from discord chat or just take a look at [help file](help.txt).
+
+## Old bot
+
+The old Maciej can be found at separated branch [old-maciej](https://github.com/Xavrax/maciej-the-bot/tree/old-maciej)
+and won't be supported anymore.
