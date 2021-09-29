@@ -30,6 +30,5 @@ cargo build
 
 ## Bot's commands
 
-Is it possible to check all supported commands by running binary with `--help` flag, calling `help` command or look to
-[features/commands]() directory which contains feature files that explaining how commands should work using gherkin
-language. 
+Is it possible to check all supported commands by running binary with `--help` flag or calling `help` command
+from discord chat.
