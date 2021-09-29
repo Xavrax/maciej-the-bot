@@ -26,7 +26,7 @@ async fn check_if_help_message_includes_help_file(env: &mut ScenarioEnvironment)
         .unwrap();
 
     let mut content = vec![];
-    help_file.read_to_end(&mut content).await;
+    help_file.read_to_end(&mut content).await.unwrap();
 
     assert!(env.output.contains(from_utf8(&content).unwrap()));
 }
