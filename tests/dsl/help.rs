@@ -1,5 +1,5 @@
 use cucumber_rust::{then, when};
-use std::process::Stdio;
+
 use tokio::fs::File;
 use tokio::io::AsyncReadExt;
 
@@ -8,7 +8,7 @@ use std::str::from_utf8;
 
 #[when("binary is ran with \"--help\" flag")]
 async fn binary_with_help_flag(env: &mut ScenarioEnvironment) {
-    let mut output = tokio::process::Command::new(std::env!("CARGO_BIN_EXE_maciej-the-bot"))
+    let output = tokio::process::Command::new(std::env!("CARGO_BIN_EXE_maciej-the-bot"))
         .args(&["--help"])
         .kill_on_drop(true)
         .output()
