@@ -4,10 +4,10 @@ use tokio::fs::File;
 use tokio::io::AsyncReadExt;
 
 use crate::dsl::ScenarioEnvironment;
-use maciej_the_bot::help_message;
+use maciej_the_bot::help::help_message;
 use std::str::from_utf8;
 
-#[when("binary should print commands help")]
+#[when("command \"help\" is triggered")]
 async fn get_help_message(env: &mut ScenarioEnvironment) {
     env.output = help_message("!");
 }

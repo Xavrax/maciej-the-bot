@@ -1,5 +1,4 @@
 use anyhow::Result;
-use maciej_the_bot::help_message;
 use structopt::StructOpt;
 
 /// Maciej-the-bot is simple discord bot written in Rust
