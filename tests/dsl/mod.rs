@@ -1,3 +1,4 @@
+use anyhow::Result;
 use cucumber_rust::{async_trait, World, WorldInit};
 use std::convert::Infallible;
 
@@ -5,7 +6,7 @@ mod help;
 
 #[derive(WorldInit, Default)]
 pub struct ScenarioEnvironment {
-    output: String,
+    command_result: Option<Result<()>>,
 }
 
 #[async_trait(?Send)]
