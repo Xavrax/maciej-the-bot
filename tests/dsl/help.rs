@@ -4,19 +4,12 @@ use tokio::fs::File;
 use tokio::io::AsyncReadExt;
 
 use crate::dsl::ScenarioEnvironment;
+use maciej_the_bot::help_message;
 use std::str::from_utf8;
 
-#[when("binary is ran with \"--help\" flag")]
-async fn binary_with_help_flag(env: &mut ScenarioEnvironment) {
-    let output = tokio::process::Command::new(std::env!("CARGO_BIN_EXE_maciej-the-bot"))
-        .args(&["--help"])
-        .kill_on_drop(true)
-        .output()
-        .await
-        .unwrap()
-        .stdout;
-
-    env.output = from_utf8(&output).unwrap().to_owned();
+#[when("binary should print commands help")]
+async fn get_help_message(env: &mut ScenarioEnvironment) {
+    env.output = help_message();
 }
 
 #[then("message should include \"help.txt\"")]
