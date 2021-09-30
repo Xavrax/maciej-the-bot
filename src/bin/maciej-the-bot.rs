@@ -1,12 +1,19 @@
 use anyhow::Result;
 use maciej_the_bot::help_message;
+use structopt::StructOpt;
 
-
-
+/// Maciej-the-bot is simple discord bot written in Rust
+/// that uses [serenity-rs](https://github.com/serenity-rs/serenity) as a backend.
+#[derive(StructOpt)]
+struct Opt {
+    /// Prefix for bot commands
+    #[structopt(short, long, env, default_value = "!")]
+    prefix: String,
+}
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    println!("{}", help_message());
+    let config = Opt::from_args();
 
     Ok(())
 }

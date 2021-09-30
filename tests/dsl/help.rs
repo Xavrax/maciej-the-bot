@@ -9,7 +9,7 @@ use std::str::from_utf8;
 
 #[when("binary should print commands help")]
 async fn get_help_message(env: &mut ScenarioEnvironment) {
-    env.output = help_message();
+    env.output = help_message("!");
 }
 
 #[then("message should include \"help.txt\"")]
@@ -21,5 +21,7 @@ async fn check_if_help_message_includes_help_file(env: &mut ScenarioEnvironment)
     let mut content = vec![];
     help_file.read_to_end(&mut content).await.unwrap();
 
-    assert!(env.output.contains(from_utf8(&content).unwrap()));
+    assert!(env
+        .output
+        .contains(&from_utf8(&content).unwrap().replace("{}", "!")));
 }

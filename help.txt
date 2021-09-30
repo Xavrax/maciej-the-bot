@@ -2,4 +2,4 @@ Maciej-the-bot is simple discord bot written in Rust that uses [serenity-rs](htt
 a backend
 
 COMMANDS:
-    -h, --help             Prints command's help information
+    {}h, {}help             Prints command's help information
