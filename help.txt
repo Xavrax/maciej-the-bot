@@ -1,7 +1,17 @@
 Hello, I'm Maciej-The-Bot - a simple discord bot. Here is a list of commands that I can understand:
 
+```
 COMMANDS:
     {}h, {}help             Prints command's help information
+```
+
+Here is a list of possible features:
+```
+FEATURES:
+    youtube     [upcoming]  Play sounds and songs from YouTube
+    busy-today  [upcoming]  Text client for busy-today backend
+```
+Features can be enabled only by administrators of the server.
 
 You can report any trouble and failure on my GitHub page at "issues" tab:
 https://github.com/Xavrax/maciej-the-bot
