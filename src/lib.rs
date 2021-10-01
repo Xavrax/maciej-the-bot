@@ -7,7 +7,7 @@ pub mod discord_facade;
 
 #[command]
 async fn help(_ctx: &Context, _msg: &Message) -> CommandResult {
-    // msg.reply(ctx, help).await?;
+    msg.reply(ctx, help).await?;
 
     Ok(())
 }
