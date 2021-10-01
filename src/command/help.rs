@@ -18,7 +18,7 @@ impl Command for HelpCommand {
                     .replace("{}", prefix)
                     .as_str(),
             )
-            .await;
+            .await?;
 
         Ok(())
     }

@@ -10,7 +10,7 @@ pub mod discord_facade;
 
 #[command]
 async fn help(ctx: &Context, msg: &Message) -> CommandResult {
-    HelpCommand.execute(DiscordFacadeImpl::new(ctx, msg));
+    HelpCommand.execute(DiscordFacadeImpl::new(ctx, msg)).await?;
 
     Ok(())
 }
