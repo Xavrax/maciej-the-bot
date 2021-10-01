@@ -10,6 +10,7 @@ impl Command for HelpCommand {
     where
         D: DiscordFacade,
     {
+        // todo: resource
         let prefix = "!";
 
         discord
