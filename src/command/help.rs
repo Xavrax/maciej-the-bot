@@ -48,13 +48,11 @@ mod should {
         then_prefix_should_be_included_to_message(&mut env);
     }
 
-
-
     mod dsl {
-        use crate::discord_facade::MockDiscordFacade;
-        use anyhow::Result;
         use crate::command::help::HelpCommand;
         use crate::command::Command;
+        use crate::discord_facade::MockDiscordFacade;
+        use anyhow::Result;
 
         #[derive(Default)]
         pub struct ScenarioEnvironment {
@@ -78,7 +76,10 @@ mod should {
                 let prefix = env.prefix.take().unwrap();
 
                 let mut mock = MockDiscordFacade::new();
-                mock.expect_reply().withf(move |content| content.contains(&prefix) ).times(1).return_once(|_| Ok(()));
+                mock.expect_reply()
+                    .withf(move |content| content.contains(&prefix))
+                    .times(1)
+                    .return_once(|_| Ok(()));
 
                 mock
             })

@@ -1,8 +1,8 @@
 use crate::discord_facade::DiscordFacade;
+use anyhow::Result;
 use async_trait::async_trait;
 use serenity::client::Context;
 use serenity::model::channel::Message;
-use anyhow::Result;
 
 pub struct DiscordFacadeImpl<'a> {
     context: &'a Context,
@@ -11,10 +11,7 @@ pub struct DiscordFacadeImpl<'a> {
 
 impl<'a> DiscordFacadeImpl<'a> {
     pub fn new(context: &'a Context, message: &'a Message) -> Self {
-        Self {
-            context,
-            message,
-        }
+        Self { context, message }
     }
 }
 

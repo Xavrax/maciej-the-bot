@@ -8,7 +8,6 @@ use maciej_the_bot::command::help::HelpCommand;
 use maciej_the_bot::command::Command;
 use maciej_the_bot::discord_facade::MockDiscordFacade;
 
-
 use std::str::from_utf8;
 
 #[when("command \"help\" is triggered")]
