@@ -1,5 +1,9 @@
-Maciej-the-bot is simple discord bot written in Rust that uses [serenity-rs](https://github.com/serenity-rs/serenity) as
-a backend
+Hello, I'm Maciej-The-Bot - a simple discord bot. Here is a list of commands that I can understand:
 
 COMMANDS:
     {}h, {}help             Prints command's help information
+
+You can report any trouble and failure on my GitHub page at "issues" tab:
+https://github.com/Xavrax/maciej-the-bot
+
+Thank you!
