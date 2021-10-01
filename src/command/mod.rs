@@ -8,5 +8,5 @@ pub mod help;
 pub trait Command {
     async fn execute<D>(self, discord: D) -> Result<()>
     where
-        D: DiscordFacade + Send + 'static;
+        D: DiscordFacade;
 }

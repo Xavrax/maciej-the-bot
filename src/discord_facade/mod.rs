@@ -1,7 +1,7 @@
 use async_trait::async_trait;
 use anyhow::Result;
 
-mod discord_facade_impl;
+pub mod discord_facade_impl;
 
 #[mockall::automock]
 #[async_trait]

@@ -1,13 +1,16 @@
 use serenity::client::Context;
 use serenity::framework::standard::{macros::command, CommandResult};
 use serenity::model::channel::Message;
+use crate::command::help::HelpCommand;
+use crate::command::Command;
+use crate::discord_facade::discord_facade_impl::DiscordFacadeImpl;
 
 pub mod command;
 pub mod discord_facade;
 
 #[command]
-async fn help(_ctx: &Context, _msg: &Message) -> CommandResult {
-    msg.reply(ctx, help).await?;
+async fn help(ctx: &Context, msg: &Message) -> CommandResult {
+    HelpCommand.execute(DiscordFacadeImpl::new(ctx, msg));
 
     Ok(())
 }

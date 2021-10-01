@@ -9,6 +9,15 @@ pub struct DiscordFacadeImpl<'a> {
     message: &'a Message,
 }
 
+impl<'a> DiscordFacadeImpl<'a> {
+    pub fn new(context: &'a Context, message: &'a Message) -> Self {
+        Self {
+            context,
+            message,
+        }
+    }
+}
+
 #[async_trait]
 impl<'a> DiscordFacade for DiscordFacadeImpl<'a> {
     async fn reply(&self, content: &str) -> Result<()> {

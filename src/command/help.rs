@@ -8,7 +8,7 @@ pub struct HelpCommand;
 impl Command for HelpCommand {
     async fn execute<D>(self, discord: D) -> anyhow::Result<()>
     where
-        D: DiscordFacade + 'static,
+        D: DiscordFacade,
     {
         let prefix = "!";
 

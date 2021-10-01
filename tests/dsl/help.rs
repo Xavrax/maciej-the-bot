@@ -27,7 +27,7 @@ async fn trigger_help_message(env: &mut ScenarioEnvironment) {
     discord_mock
         .expect_reply()
         .withf(move |function_content| function_content == fixed_content)
-        .returning(|_| {})
+        .returning(|_| Ok(()))
         .times(1);
 
     env.command_result = Some(HelpCommand.execute(discord_mock).await)
