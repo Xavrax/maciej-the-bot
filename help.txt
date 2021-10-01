@@ -13,7 +13,7 @@ FEATURES:
 ```
 Features can be enabled only by administrators of the server.
 
-You can report any trouble, failure or feature ideas on my GitHub page at "issues" tab:
+You can report any trouble, failure or feature idea on my GitHub page at "issues" tab:
 https://github.com/Xavrax/maciej-the-bot
 
 Thank you!
