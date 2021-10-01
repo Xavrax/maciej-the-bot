@@ -16,3 +16,12 @@ async fn help(ctx: &Context, msg: &Message) -> CommandResult {
 
     Ok(())
 }
+
+#[command]
+async fn h(ctx: &Context, msg: &Message) -> CommandResult {
+    HelpCommand
+        .execute(DiscordFacadeImpl::new(ctx, msg))
+        .await?;
+
+    Ok(())
+}

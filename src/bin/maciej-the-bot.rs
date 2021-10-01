@@ -1,6 +1,6 @@
 use anyhow::Result;
 use async_trait::async_trait;
-use maciej_the_bot::HELP_COMMAND;
+use maciej_the_bot::{HELP_COMMAND, H_COMMAND};
 use serenity::client::EventHandler;
 use serenity::framework::standard::macros::group;
 use serenity::framework::StandardFramework;
@@ -21,7 +21,7 @@ struct Opt {
 }
 
 #[group]
-#[commands(help)]
+#[commands(h, help)]
 struct General;
 
 struct Handler;
