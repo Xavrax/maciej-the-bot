@@ -1,4 +1,4 @@
-Feature: Displaying help.txt as a part of a help message
-  Scenario: Display help after running binary with --help flag
+Feature: Printing help.txt as a help message on chat
+  Scenario: Print help after calling help command
     When command "help" is triggered
     Then message should include "help.txt"
