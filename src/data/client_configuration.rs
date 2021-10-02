@@ -9,9 +9,7 @@ pub struct ClientConfiguration {
 
 impl ClientConfiguration {
     pub fn new(prefix: String) -> Arc<RwLock<Self>> {
-        Arc::new(RwLock::new(Self {
-            prefix
-        }))
+        Arc::new(RwLock::new(Self { prefix }))
     }
 }
 

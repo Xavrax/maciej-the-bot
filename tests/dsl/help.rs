@@ -8,8 +8,8 @@ use maciej_the_bot::command::help::HelpCommand;
 use maciej_the_bot::command::Command;
 use maciej_the_bot::discord_facade::MockDiscordFacade;
 
-use std::str::from_utf8;
 use crate::dsl::help::dsl::add_prefix_to_mock;
+use std::str::from_utf8;
 
 #[when("command \"help\" is triggered")]
 async fn trigger_help_message(env: &mut ScenarioEnvironment) {
@@ -42,11 +42,11 @@ async fn check_if_help_message_includes_help_file(env: &mut ScenarioEnvironment)
 }
 
 mod dsl {
-    use std::sync::Arc;
-    use tokio::sync::RwLock;
-    use serenity::prelude::TypeMap;
     use maciej_the_bot::data::client_configuration::ClientConfiguration;
     use maciej_the_bot::discord_facade::MockDiscordFacade;
+    use serenity::prelude::TypeMap;
+    use std::sync::Arc;
+    use tokio::sync::RwLock;
 
     pub async fn add_prefix_to_mock(mock: &mut MockDiscordFacade, prefix: String) {
         let data = Arc::new(RwLock::new(TypeMap::new()));
@@ -57,8 +57,6 @@ mod dsl {
             client_data.insert::<ClientConfiguration>(ClientConfiguration::new(prefix))
         }
 
-        mock.expect_get_data()
-            .times(1)
-            .return_once(|| data);
+        mock.expect_get_data().times(1).return_once(|| data);
     }
 }

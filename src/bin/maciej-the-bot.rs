@@ -7,8 +7,6 @@ use serenity::framework::StandardFramework;
 use serenity::Client;
 use structopt::StructOpt;
 
-
-
 use maciej_the_bot::data::client_configuration::ClientConfiguration;
 
 /// Maciej-the-bot is simple discord bot written in Rust

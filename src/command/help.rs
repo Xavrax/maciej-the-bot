@@ -1,8 +1,8 @@
 use crate::command::Command;
-use crate::discord_facade::DiscordFacade;
 use crate::data::client_configuration::ClientConfiguration;
-use async_trait::async_trait;
+use crate::discord_facade::DiscordFacade;
 use anyhow::anyhow;
+use async_trait::async_trait;
 
 pub struct HelpCommand;
 
@@ -13,7 +13,16 @@ impl Command for HelpCommand {
         D: DiscordFacade,
     {
         let prefix = {
-            discord.get_data().read().await.get::<ClientConfiguration>().ok_or_else(|| anyhow!("Client configuration not initialized!"))?.read().await.prefix.clone()
+            discord
+                .get_data()
+                .read()
+                .await
+                .get::<ClientConfiguration>()
+                .ok_or_else(|| anyhow!("Client configuration not initialized!"))?
+                .read()
+                .await
+                .prefix
+                .clone()
         };
 
         discord
@@ -54,12 +63,12 @@ mod should {
     mod dsl {
         use crate::command::help::HelpCommand;
         use crate::command::Command;
+        use crate::data::client_configuration::ClientConfiguration;
         use crate::discord_facade::MockDiscordFacade;
         use anyhow::Result;
+        use serenity::prelude::TypeMap;
         use std::sync::Arc;
         use tokio::sync::RwLock;
-        use serenity::prelude::TypeMap;
-        use crate::data::client_configuration::ClientConfiguration;
 
         #[derive(Default)]
         pub struct ScenarioEnvironment {
@@ -121,9 +130,7 @@ mod should {
                 client_data.insert::<ClientConfiguration>(ClientConfiguration::new(prefix))
             }
 
-            mock.expect_get_data()
-                .times(1)
-                .return_once(|| data);
+            mock.expect_get_data().times(1).return_once(|| data);
         }
     }
 }

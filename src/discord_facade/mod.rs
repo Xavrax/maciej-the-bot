@@ -1,8 +1,8 @@
 use anyhow::Result;
 use async_trait::async_trait;
+use serenity::prelude::TypeMap;
 use std::sync::Arc;
 use tokio::sync::RwLock;
-use serenity::prelude::TypeMap;
 
 pub mod discord_facade_impl;
 

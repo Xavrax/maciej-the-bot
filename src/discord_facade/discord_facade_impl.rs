@@ -3,8 +3,8 @@ use anyhow::Result;
 use async_trait::async_trait;
 use serenity::client::Context;
 use serenity::model::channel::Message;
-use std::sync::Arc;
 use serenity::prelude::{RwLock, TypeMap};
+use std::sync::Arc;
 
 pub struct DiscordFacadeImpl<'a> {
     context: &'a Context,
