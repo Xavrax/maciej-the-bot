@@ -1,6 +1,6 @@
 use serenity::prelude::TypeMapKey;
 use std::sync::Arc;
-use std::sync::atomic::AtomicU8;
+
 use tokio::sync::RwLock;
 
 pub struct ClientConfiguration {

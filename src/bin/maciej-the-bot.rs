@@ -6,9 +6,9 @@ use serenity::framework::standard::macros::group;
 use serenity::framework::StandardFramework;
 use serenity::Client;
 use structopt::StructOpt;
-use std::sync::Arc;
-use std::sync::atomic::AtomicU8;
-use std::str::from_utf8;
+
+
+
 use maciej_the_bot::data::client_configuration::ClientConfiguration;
 
 /// Maciej-the-bot is simple discord bot written in Rust
