@@ -6,6 +6,10 @@ use serenity::framework::standard::macros::group;
 use serenity::framework::StandardFramework;
 use serenity::Client;
 use structopt::StructOpt;
+use std::sync::Arc;
+use std::sync::atomic::AtomicU8;
+use std::str::from_utf8;
+use maciej_the_bot::data::client_configuration::ClientConfiguration;
 
 /// Maciej-the-bot is simple discord bot written in Rust
 /// that uses [serenity-rs](https://github.com/serenity-rs/serenity) as a backend.
@@ -41,6 +45,12 @@ async fn main() -> Result<()> {
         .event_handler(Handler)
         .framework(serenity_framework)
         .await?;
+
+    {
+        let mut client_data = client.data.write().await;
+
+        client_data.insert::<ClientConfiguration>(ClientConfiguration::new(config.prefix))
+    }
 
     client.start().await?;
 

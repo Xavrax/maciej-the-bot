@@ -1,6 +1,8 @@
 use crate::command::Command;
 use crate::discord_facade::DiscordFacade;
+use crate::data::client_configuration::ClientConfiguration;
 use async_trait::async_trait;
+use anyhow::anyhow;
 
 pub struct HelpCommand;
 
@@ -10,13 +12,14 @@ impl Command for HelpCommand {
     where
         D: DiscordFacade,
     {
-        // todo: resource
-        let prefix = "!";
+        let prefix = {
+            discord.get_data().read().await.get::<ClientConfiguration>().ok_or_else(|| anyhow!("Client configuration not initialized!"))?.read().await.prefix.clone()
+        };
 
         discord
             .reply(
                 include_str!("../../help.txt")
-                    .replace("{}", prefix)
+                    .replace("{}", &prefix)
                     .as_str(),
             )
             .await?;
@@ -33,7 +36,7 @@ mod should {
     async fn send_help_message() {
         let mut env = ScenarioEnvironment::default();
 
-        given_discord_facade(&mut env);
+        given_discord_facade(&mut env).await;
         when_command_is_triggered(&mut env).await;
         then_should_reply_with_help(&mut env);
     }
@@ -43,7 +46,7 @@ mod should {
         let mut env = ScenarioEnvironment::default();
 
         given_prefix(&mut env);
-        and_given_discord_facade_expecting_prefix(&mut env);
+        and_given_discord_facade_expecting_prefix(&mut env).await;
         when_command_is_triggered(&mut env).await;
         then_prefix_should_be_included_to_message(&mut env);
     }
@@ -53,6 +56,10 @@ mod should {
         use crate::command::Command;
         use crate::discord_facade::MockDiscordFacade;
         use anyhow::Result;
+        use std::sync::Arc;
+        use tokio::sync::RwLock;
+        use serenity::prelude::TypeMap;
+        use crate::data::client_configuration::ClientConfiguration;
 
         #[derive(Default)]
         pub struct ScenarioEnvironment {
@@ -62,24 +69,28 @@ mod should {
             pub result: Option<Result<()>>,
         }
 
-        pub fn given_discord_facade(env: &mut ScenarioEnvironment) {
+        pub async fn given_discord_facade(env: &mut ScenarioEnvironment) {
             env.facade = Some({
                 let mut mock = MockDiscordFacade::new();
                 mock.expect_reply().times(1).return_once(|_| Ok(()));
+                add_prefix_to_mock(&mut mock, "!".into()).await;
 
                 mock
             })
         }
 
-        pub fn and_given_discord_facade_expecting_prefix(env: &mut ScenarioEnvironment) {
+        pub async fn and_given_discord_facade_expecting_prefix(env: &mut ScenarioEnvironment) {
             env.facade = Some({
                 let prefix = env.prefix.take().unwrap();
+                let cloned_prefix = prefix.clone();
 
                 let mut mock = MockDiscordFacade::new();
                 mock.expect_reply()
-                    .withf(move |content| content.contains(&prefix))
+                    .withf(move |content| content.contains(&cloned_prefix))
                     .times(1)
                     .return_once(|_| Ok(()));
+
+                add_prefix_to_mock(&mut mock, prefix).await;
 
                 mock
             })
@@ -99,6 +110,20 @@ mod should {
 
         pub fn then_prefix_should_be_included_to_message(env: &mut ScenarioEnvironment) {
             assert!(env.result.take().unwrap().is_ok());
+        }
+
+        async fn add_prefix_to_mock(mock: &mut MockDiscordFacade, prefix: String) {
+            let data = Arc::new(RwLock::new(TypeMap::new()));
+
+            {
+                let mut client_data = data.write().await;
+
+                client_data.insert::<ClientConfiguration>(ClientConfiguration::new(prefix))
+            }
+
+            mock.expect_get_data()
+                .times(1)
+                .return_once(|| data);
         }
     }
 }

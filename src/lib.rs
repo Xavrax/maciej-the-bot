@@ -7,6 +7,7 @@ use serenity::model::channel::Message;
 
 pub mod command;
 pub mod discord_facade;
+pub mod data;
 
 #[command]
 async fn help(ctx: &Context, msg: &Message) -> CommandResult {
