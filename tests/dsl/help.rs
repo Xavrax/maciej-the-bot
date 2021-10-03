@@ -1,15 +1,11 @@
 use cucumber_rust::{then, when};
 
-
 use tokio::io::AsyncReadExt;
 
 use crate::dsl::ScenarioEnvironment;
-use maciej_the_bot::command::help::{HelpLevel};
+use maciej_the_bot::command::help::HelpLevel;
 
-
-
-use crate::dsl::help::dsl::{trigger_help_message};
-
+use crate::dsl::help::dsl::trigger_help_message;
 
 #[when("command \"help\" is triggered")]
 async fn trigger_user_help_message(env: &mut ScenarioEnvironment) {
