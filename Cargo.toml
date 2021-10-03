@@ -8,7 +8,7 @@ edition = "2018"
 
 [dependencies]
 tokio = { version = "1", features = ["full"] }
-serenity = { varsion = "0.10", features = ["framework"] }
+serenity = { version = "0.10", features = ["framework"] }
 anyhow = "1.0"
 structopt = "0.3"
 async-trait = "0.1"
