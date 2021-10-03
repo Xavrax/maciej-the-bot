@@ -27,7 +27,7 @@ impl Command for HelpCommand {
 
         discord
             .reply(
-                include_str!("../../help.txt")
+                include_str!("../../messages/help.txt")
                     .replace("{}", &prefix)
                     .as_str(),
             )

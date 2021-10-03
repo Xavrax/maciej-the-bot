@@ -25,6 +25,11 @@ struct Opt {
 #[group]
 #[commands(h, help)]
 struct General;
+//
+// #[group]
+// #[commands()]
+// #[prefixes("op", "operator", "a", "admin", "administrator")]
+// struct Operator;
 
 struct Handler;
 

@@ -14,7 +14,7 @@ use std::str::from_utf8;
 #[when("command \"help\" is triggered")]
 async fn trigger_help_message(env: &mut ScenarioEnvironment) {
     let prefix = "!".to_owned();
-    let mut help_file = File::open(format!("{}/help.txt", std::env!("CARGO_MANIFEST_DIR")))
+    let mut help_file = File::open(format!("{}/messages/help.txt", std::env!("CARGO_MANIFEST_DIR")))
         .await
         .unwrap();
 
