@@ -2,11 +2,11 @@ Hello Boss! Here is a list of commands that can configure me as you wish:
 
 ```
 COMMANDS:
-    {prefix}{op_prefix} help                     Prints command's help information
-    {prefix}{op_prefix} feature <name> <action>  Enables or Disables concrete feature where action: enable/disable
+    {prefix}{op_prefix}                          Prints command's help information
+    {prefix}{op_prefix} feature <name> <action>  Enables or Disables a concrete feature where action: enable/disable
 ```
 
-You can find more information configuration at operator's guide:
+You can find more information about configuration at operator's guide:
 https://github.com/Xavrax/maciej-the-bot
 
 Thank you!
