@@ -2,7 +2,7 @@ Hello, I'm Maciej-The-Bot - a simple discord bot. Here is a list of commands tha
 
 ```
 COMMANDS:
-    {}h, {}help             Prints command's help information
+    {prefix}h, {prefix}help             Prints command's help information
 ```
 
 Here is a list of possible features:

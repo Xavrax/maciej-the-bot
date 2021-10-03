@@ -23,7 +23,7 @@ async fn trigger_help_message(env: &mut ScenarioEnvironment) {
 
     let mut discord_mock = MockDiscordFacade::new();
 
-    let fixed_content = from_utf8(&content).unwrap().replace("{}", &prefix);
+    let fixed_content = from_utf8(&content).unwrap().replace("{prefix}", &prefix);
 
     discord_mock
         .expect_reply()

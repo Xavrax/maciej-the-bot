@@ -28,7 +28,7 @@ impl Command for HelpCommand {
         discord
             .reply(
                 include_str!("../../messages/help.txt")
-                    .replace("{}", &prefix)
+                    .replace("{prefix}", &prefix)
                     .as_str(),
             )
             .await?;
@@ -106,7 +106,7 @@ mod should {
         }
 
         pub fn given_prefix(env: &mut ScenarioEnvironment) {
-            env.prefix = Some("!".into());
+            env.prefix = Some("$$".into());
         }
 
         pub async fn when_command_is_triggered(env: &mut ScenarioEnvironment) {
