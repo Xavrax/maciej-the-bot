@@ -1,15 +1,15 @@
 use cucumber_rust::{then, when};
 
-use tokio::fs::File;
+
 use tokio::io::AsyncReadExt;
 
 use crate::dsl::ScenarioEnvironment;
-use maciej_the_bot::command::help::{HelpCommand, HelpLevel};
-use maciej_the_bot::command::Command;
-use maciej_the_bot::discord_facade::MockDiscordFacade;
+use maciej_the_bot::command::help::{HelpLevel};
 
-use crate::dsl::help::dsl::{add_prefix_to_mock, trigger_help_message};
-use std::str::from_utf8;
+
+
+use crate::dsl::help::dsl::{trigger_help_message};
+
 
 #[when("command \"help\" is triggered")]
 async fn trigger_user_help_message(env: &mut ScenarioEnvironment) {
