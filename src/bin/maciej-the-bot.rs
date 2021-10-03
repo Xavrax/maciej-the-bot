@@ -28,7 +28,7 @@ struct General;
 //
 // #[group]
 // #[commands()]
-// #[prefixes("op", "operator", "a", "admin", "administrator")]
+// #[prefixes("op")]
 // struct Operator;
 
 struct Handler;
@@ -39,6 +39,9 @@ impl EventHandler for Handler {}
 #[tokio::main]
 async fn main() -> Result<()> {
     let config = Opt::from_args();
+
+    // todo: add dynamic prefix
+    let op_prefix = "op";
 
     let serenity_framework = StandardFramework::new()
         .configure(|c| c.prefix(&config.prefix))
@@ -52,7 +55,10 @@ async fn main() -> Result<()> {
     {
         let mut client_data = client.data.write().await;
 
-        client_data.insert::<ClientConfiguration>(ClientConfiguration::new(config.prefix))
+        client_data.insert::<ClientConfiguration>(ClientConfiguration::new(
+            config.prefix,
+            op_prefix.into(),
+        ))
     }
 
     client.start().await?;

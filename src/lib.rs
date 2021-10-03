@@ -1,4 +1,4 @@
-use crate::command::help::HelpCommand;
+use crate::command::help::{HelpCommand, HelpLevel};
 use crate::command::Command;
 use crate::discord_facade::discord_facade_impl::DiscordFacadeImpl;
 use serenity::client::Context;
@@ -11,7 +11,7 @@ pub mod discord_facade;
 
 #[command]
 async fn help(ctx: &Context, msg: &Message) -> CommandResult {
-    HelpCommand
+    HelpCommand::new(HelpLevel::User)
         .execute(DiscordFacadeImpl::new(ctx, msg))
         .await?;
 
@@ -20,7 +20,7 @@ async fn help(ctx: &Context, msg: &Message) -> CommandResult {
 
 #[command]
 async fn h(ctx: &Context, msg: &Message) -> CommandResult {
-    HelpCommand
+    HelpCommand::new(HelpLevel::User)
         .execute(DiscordFacadeImpl::new(ctx, msg))
         .await?;
 

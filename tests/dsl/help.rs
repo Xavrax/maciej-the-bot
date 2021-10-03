@@ -4,7 +4,7 @@ use tokio::fs::File;
 use tokio::io::AsyncReadExt;
 
 use crate::dsl::ScenarioEnvironment;
-use maciej_the_bot::command::help::HelpCommand;
+use maciej_the_bot::command::help::{HelpCommand, HelpLevel};
 use maciej_the_bot::command::Command;
 use maciej_the_bot::discord_facade::MockDiscordFacade;
 
@@ -14,9 +14,12 @@ use std::str::from_utf8;
 #[when("command \"help\" is triggered")]
 async fn trigger_help_message(env: &mut ScenarioEnvironment) {
     let prefix = "!".to_owned();
-    let mut help_file = File::open(format!("{}/messages/help.txt", std::env!("CARGO_MANIFEST_DIR")))
-        .await
-        .unwrap();
+    let mut help_file = File::open(format!(
+        "{}/messages/help.txt",
+        std::env!("CARGO_MANIFEST_DIR")
+    ))
+    .await
+    .unwrap();
 
     let mut content = vec![];
     help_file.read_to_end(&mut content).await.unwrap();
@@ -33,7 +36,11 @@ async fn trigger_help_message(env: &mut ScenarioEnvironment) {
 
     add_prefix_to_mock(&mut discord_mock, prefix).await;
 
-    env.command_result = Some(HelpCommand.execute(discord_mock).await)
+    env.command_result = Some(
+        HelpCommand::new(HelpLevel::User)
+            .execute(discord_mock)
+            .await,
+    )
 }
 
 #[then("message should include \"help.txt\"")]
@@ -54,7 +61,7 @@ mod dsl {
         {
             let mut client_data = data.write().await;
 
-            client_data.insert::<ClientConfiguration>(ClientConfiguration::new(prefix))
+            client_data.insert::<ClientConfiguration>(ClientConfiguration::new(prefix, "op".into()))
         }
 
         mock.expect_get_data().times(1).return_once(|| data);
