@@ -1,6 +1,6 @@
 use anyhow::Result;
 use async_trait::async_trait;
-use maciej_the_bot::{HELP_COMMAND, H_COMMAND, OP_HELP_COMMAND};
+use maciej_the_bot::{op::HELP_COMMAND as OPHELP_COMMAND, HELP_COMMAND, H_COMMAND};
 use serenity::client::EventHandler;
 use serenity::framework::standard::macros::group;
 use serenity::framework::StandardFramework;
@@ -30,8 +30,7 @@ struct General;
 #[group]
 #[only_in(guilds)]
 #[prefixes("op")]
-#[default_command(op_help)]
-#[commands(op_help)]
+#[commands(ophelp)]
 struct Operator;
 
 struct Handler;

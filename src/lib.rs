@@ -27,11 +27,14 @@ async fn h(ctx: &Context, msg: &Message) -> CommandResult {
     Ok(())
 }
 
-#[command]
-async fn op_help(ctx: &Context, msg: &Message) -> CommandResult {
-    HelpCommand::new(HelpLevel::Operator)
-        .execute(DiscordFacadeImpl::new(ctx, msg))
-        .await?;
+pub mod op {
+    use super::*;
+    #[command]
+    async fn help(ctx: &Context, msg: &Message) -> CommandResult {
+        HelpCommand::new(HelpLevel::Operator)
+            .execute(DiscordFacadeImpl::new(ctx, msg))
+            .await?;
 
-    Ok(())
+        Ok(())
+    }
 }
