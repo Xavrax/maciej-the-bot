@@ -1,7 +1,5 @@
 use cucumber_rust::{then, when};
 
-use tokio::io::AsyncReadExt;
-
 use crate::dsl::ScenarioEnvironment;
 use maciej_the_bot::command::help::HelpLevel;
 
