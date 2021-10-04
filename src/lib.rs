@@ -5,29 +5,34 @@ use serenity::client::Context;
 use serenity::framework::standard::{macros::command, CommandResult};
 use serenity::model::channel::Message;
 
+pub mod checks;
 pub mod command;
 pub mod data;
 pub mod discord_facade;
 
-#[command]
-async fn help(ctx: &Context, msg: &Message) -> CommandResult {
-    HelpCommand::new(HelpLevel::User)
-        .execute(DiscordFacadeImpl::new(ctx, msg))
-        .await?;
+pub mod user_commands {
+    use super::*;
 
-    Ok(())
+    #[command]
+    async fn help(ctx: &Context, msg: &Message) -> CommandResult {
+        HelpCommand::new(HelpLevel::User)
+            .execute(DiscordFacadeImpl::new(ctx, msg))
+            .await?;
+
+        Ok(())
+    }
+
+    #[command]
+    async fn h(ctx: &Context, msg: &Message) -> CommandResult {
+        HelpCommand::new(HelpLevel::User)
+            .execute(DiscordFacadeImpl::new(ctx, msg))
+            .await?;
+
+        Ok(())
+    }
 }
 
-#[command]
-async fn h(ctx: &Context, msg: &Message) -> CommandResult {
-    HelpCommand::new(HelpLevel::User)
-        .execute(DiscordFacadeImpl::new(ctx, msg))
-        .await?;
-
-    Ok(())
-}
-
-pub mod op {
+pub mod operator_commands {
     use super::*;
     #[command]
     async fn help(ctx: &Context, msg: &Message) -> CommandResult {
@@ -38,3 +43,5 @@ pub mod op {
         Ok(())
     }
 }
+
+pub mod discord_checks {}

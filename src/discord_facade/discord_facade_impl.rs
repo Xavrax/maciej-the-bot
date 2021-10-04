@@ -3,6 +3,7 @@ use anyhow::Result;
 use async_trait::async_trait;
 use serenity::client::Context;
 use serenity::model::channel::Message;
+use serenity::model::guild::Guild;
 use serenity::prelude::{RwLock, TypeMap};
 use std::sync::Arc;
 
@@ -27,5 +28,9 @@ impl<'a> DiscordFacade for DiscordFacadeImpl<'a> {
 
     fn get_data(&self) -> Arc<RwLock<TypeMap>> {
         self.context.data.clone()
+    }
+
+    fn get_guild(&self) -> Guild {
+        // self.message.guild_id.
     }
 }
