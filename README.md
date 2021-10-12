@@ -6,7 +6,7 @@
 
 ## What is it?
 
-![Maciej](maciej.png)
+![Maciej - created by: twitter.com/artOphelia](maciej.png)
 
 **Maciej-the-bot** is simple discord bot written in Rust that uses [serenity-rs](https://github.com/serenity-rs/serenity)
 as a backend.
