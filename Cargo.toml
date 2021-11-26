@@ -2,7 +2,7 @@
 name = "maciej-the-bot"
 version = "0.2.0"
 authors = ["xavrax"]
-edition = "2018"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -15,5 +15,5 @@ async-trait = "0.1"
 mockall = "0.10"
 
 [dev-dependencies]
-cucumber_rust = { version="0.8", features=["macros"] }
+cucumber_rust = "0.10"
 test-case = "1.2"

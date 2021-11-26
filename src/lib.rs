@@ -12,18 +12,19 @@ pub mod discord_facade;
 
 pub mod user_commands {
     use super::*;
+    use serenity::framework::standard::CommandError;
 
     #[command]
     async fn help(ctx: &Context, msg: &Message) -> CommandResult {
-        HelpCommand::new(HelpLevel::User)
-            .execute(DiscordFacadeImpl::new(ctx, msg))
-            .await?;
-
-        Ok(())
+        help_function(ctx, msg).await
     }
 
     #[command]
     async fn h(ctx: &Context, msg: &Message) -> CommandResult {
+        help_function(ctx, msg).await
+    }
+
+    async fn help_function(ctx: &Context, msg: &Message) -> Result<(), CommandError> {
         HelpCommand::new(HelpLevel::User)
             .execute(DiscordFacadeImpl::new(ctx, msg))
             .await?;
