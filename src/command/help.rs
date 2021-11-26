@@ -72,26 +72,32 @@ mod should {
         let prefix: String = "$$".into();
         let op_prefix: String = "##".into();
 
-        let facade = {
-            let full_prefix = match help_level {
-                HelpLevel::User => prefix.clone(),
-                HelpLevel::Operator => prefix.clone().add(&op_prefix),
-            };
-
-            let mut mock = MockDiscordFacade::new();
-            mock.expect_reply()
-                .withf(move |content| content.contains(&full_prefix))
-                .times(1)
-                .return_once(|_| Ok(()));
-
-            add_prefix_to_mock(&mut mock, prefix, op_prefix).await;
-
-            mock
-        };
+        let facade = create_discord_facade(&help_level, prefix, &op_prefix).await;
 
         let result = HelpCommand::new(help_level).execute(facade).await;
 
         assert!(result.is_ok());
+    }
+
+    async fn create_discord_facade(
+        help_level: &HelpLevel,
+        prefix: String,
+        op_prefix: &String,
+    ) -> MockDiscordFacade {
+        let full_prefix = match help_level {
+            HelpLevel::User => prefix.clone(),
+            HelpLevel::Operator => prefix.clone().add(&op_prefix),
+        };
+
+        let mut mock = MockDiscordFacade::new();
+        mock.expect_reply()
+            .withf(move |content| content.contains(&full_prefix))
+            .times(1)
+            .return_once(|_| Ok(()));
+
+        add_prefix_to_mock(&mut mock, prefix, op_prefix.clone()).await;
+
+        mock
     }
 
     async fn add_prefix_to_mock(mock: &mut MockDiscordFacade, prefix: String, op_prefix: String) {
