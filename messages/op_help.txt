@@ -6,6 +6,15 @@ COMMANDS:
     {prefix}{op_prefix} feature <name> <action>  Enables or Disables a concrete feature where action: enable/disable
 ```
 
+Here is a list of possible features:
+```
+FEATURES:
+    youtube     [upcoming]  Play sounds and songs from YouTube
+    busy-today  [upcoming]  Text client for busy-today backend
+    minecraft  [upcoming]  Xavrax's Minecraft server automation
+```
+Features can be enabled only by administrators of the server.
+
 You can find more information about configuration at operator's guide:
 https://github.com/Xavrax/maciej-the-bot
 
