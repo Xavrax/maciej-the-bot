@@ -15,5 +15,5 @@ async-trait = "0.1"
 mockall = "0.10"
 
 [dev-dependencies]
-cucumber_rust = "0.10"
+cucumber = "0.10"
 test-case = "1.2"
