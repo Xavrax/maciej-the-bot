@@ -82,11 +82,11 @@ mod should {
     async fn create_discord_facade(
         help_level: &HelpLevel,
         prefix: String,
-        op_prefix: &String,
+        op_prefix: &str,
     ) -> MockDiscordFacade {
         let full_prefix = match help_level {
             HelpLevel::User => prefix.clone(),
-            HelpLevel::Operator => prefix.clone().add(&op_prefix),
+            HelpLevel::Operator => prefix.clone().add(op_prefix),
         };
 
         let mut mock = MockDiscordFacade::new();
@@ -95,7 +95,7 @@ mod should {
             .times(1)
             .return_once(|_| Ok(()));
 
-        add_prefix_to_mock(&mut mock, prefix, op_prefix.clone()).await;
+        add_prefix_to_mock(&mut mock, prefix, op_prefix.into()).await;
 
         mock
     }

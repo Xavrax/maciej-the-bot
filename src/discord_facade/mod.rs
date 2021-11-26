@@ -1,6 +1,6 @@
 use anyhow::Result;
 use async_trait::async_trait;
-use serenity::model::guild::Guild;
+
 use serenity::prelude::TypeMap;
 use std::sync::Arc;
 use tokio::sync::RwLock;

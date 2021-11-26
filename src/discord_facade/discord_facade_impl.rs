@@ -3,7 +3,7 @@ use anyhow::Result;
 use async_trait::async_trait;
 use serenity::client::Context;
 use serenity::model::channel::Message;
-use serenity::model::guild::Guild;
+
 use serenity::prelude::{RwLock, TypeMap};
 use std::sync::Arc;
 
