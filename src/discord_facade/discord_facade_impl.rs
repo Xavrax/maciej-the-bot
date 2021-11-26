@@ -29,8 +29,4 @@ impl<'a> DiscordFacade for DiscordFacadeImpl<'a> {
     fn get_data(&self) -> Arc<RwLock<TypeMap>> {
         self.context.data.clone()
     }
-
-    fn get_guild(&self) -> Guild {
-        // self.message.guild_id.
-    }
 }

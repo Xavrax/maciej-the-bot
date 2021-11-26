@@ -55,114 +55,54 @@ impl Command for HelpCommand {
 
 #[cfg(test)]
 mod should {
-    use crate::command::help::HelpLevel;
-    use dsl::*;
+    use crate::command::help::{HelpCommand, HelpLevel};
+    use crate::command::Command;
+    use crate::data::client_configuration::ClientConfiguration;
+    use crate::discord_facade::MockDiscordFacade;
+    use serenity::prelude::TypeMap;
+    use std::ops::Add;
+    use std::sync::Arc;
     use test_case::test_case;
+    use tokio::sync::RwLock;
 
     #[test_case(HelpLevel::User; "on user level")]
     #[test_case(HelpLevel::Operator; "on operator level")]
     #[tokio::test]
-    async fn send_help_message(level: HelpLevel) {
-        let mut env = ScenarioEnvironment::default();
+    async fn send_help_message(help_level: HelpLevel) {
+        let prefix: String = "$$".into();
+        let op_prefix: String = "##".into();
 
-        given_help_level(level, &mut env);
-        and_given_prefix(&mut env);
-        and_given_discord_facade(&mut env).await;
-        when_command_is_triggered(&mut env).await;
-        then_should_reply_with_help(&mut env);
-        and_then_prefix_should_be_included_to_message(&mut env);
+        let facade = {
+            let full_prefix = match help_level {
+                HelpLevel::User => prefix.clone(),
+                HelpLevel::Operator => prefix.clone().add(&op_prefix),
+            };
+
+            let mut mock = MockDiscordFacade::new();
+            mock.expect_reply()
+                .withf(move |content| content.contains(&full_prefix))
+                .times(1)
+                .return_once(|_| Ok(()));
+
+            add_prefix_to_mock(&mut mock, prefix, op_prefix).await;
+
+            mock
+        };
+
+        let result = HelpCommand::new(help_level).execute(facade).await;
+
+        assert!(result.is_ok());
     }
 
-    mod dsl {
-        use crate::command::help::{HelpCommand, HelpLevel};
-        use crate::command::Command;
-        use crate::data::client_configuration::ClientConfiguration;
-        use crate::discord_facade::MockDiscordFacade;
-        use anyhow::Result;
-        use serenity::prelude::TypeMap;
-        use std::ops::Add;
-        use std::sync::Arc;
-        use tokio::sync::RwLock;
+    async fn add_prefix_to_mock(mock: &mut MockDiscordFacade, prefix: String, op_prefix: String) {
+        let data = Arc::new(RwLock::new(TypeMap::new()));
 
-        #[derive(Default)]
-        pub struct ScenarioEnvironment {
-            pub facade: Option<MockDiscordFacade>,
-            pub prefix: Option<String>,
-            pub op_prefix: Option<String>,
-            pub help_level: Option<HelpLevel>,
+        {
+            let mut client_data = data.write().await;
 
-            pub result: Option<Result<()>>,
+            client_data.insert::<ClientConfiguration>(ClientConfiguration::new(prefix, op_prefix))
         }
 
-        pub fn given_help_level(level: HelpLevel, env: &mut ScenarioEnvironment) {
-            env.help_level = Some(level);
-        }
-
-        pub async fn and_given_discord_facade(env: &mut ScenarioEnvironment) {
-            env.facade = Some({
-                let full_prefix = match env.help_level.as_ref().unwrap() {
-                    HelpLevel::User => env.prefix.as_ref().unwrap().clone(),
-                    HelpLevel::Operator => env
-                        .prefix
-                        .as_ref()
-                        .unwrap()
-                        .clone()
-                        .add(env.op_prefix.as_ref().unwrap().as_str()),
-                };
-
-                let mut mock = MockDiscordFacade::new();
-                mock.expect_reply()
-                    .withf(move |content| content.contains(&full_prefix))
-                    .times(1)
-                    .return_once(|_| Ok(()));
-
-                add_prefix_to_mock(
-                    &mut mock,
-                    env.prefix.take().unwrap(),
-                    env.op_prefix.take().unwrap(),
-                )
-                .await;
-
-                mock
-            })
-        }
-
-        pub fn and_given_prefix(env: &mut ScenarioEnvironment) {
-            env.prefix = Some("$$".into());
-            env.op_prefix = Some("##".into());
-        }
-
-        pub async fn when_command_is_triggered(env: &mut ScenarioEnvironment) {
-            env.result = Some(
-                HelpCommand::new(env.help_level.take().unwrap())
-                    .execute(env.facade.take().unwrap())
-                    .await,
-            );
-        }
-
-        pub fn then_should_reply_with_help(env: &mut ScenarioEnvironment) {
-            assert!(env.result.as_ref().unwrap().is_ok());
-        }
-
-        pub fn and_then_prefix_should_be_included_to_message(env: &mut ScenarioEnvironment) {
-            assert!(env.result.take().unwrap().is_ok());
-        }
-
-        async fn add_prefix_to_mock(
-            mock: &mut MockDiscordFacade,
-            prefix: String,
-            op_prefix: String,
-        ) {
-            let data = Arc::new(RwLock::new(TypeMap::new()));
-
-            {
-                let mut client_data = data.write().await;
-
-                client_data
-                    .insert::<ClientConfiguration>(ClientConfiguration::new(prefix, op_prefix))
-            }
-
-            mock.expect_get_data().times(1).return_once(|| data);
-        }
+        mock.expect_get_data().times(1).return_once(|| data);
     }
 }

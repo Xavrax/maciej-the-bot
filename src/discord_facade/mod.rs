@@ -12,5 +12,4 @@ pub mod discord_facade_impl;
 pub trait DiscordFacade: Send + Sync {
     async fn reply(&self, content: &str) -> Result<()>;
     fn get_data(&self) -> Arc<RwLock<TypeMap>>;
-    fn get_guild(&self) -> Guild;
 }
