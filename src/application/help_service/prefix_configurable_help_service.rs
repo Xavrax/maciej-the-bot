@@ -2,22 +2,22 @@ use crate::application::help_service::{HelpLevel, HelpService};
 use crate::domain::help::compiled_help_messenger::CompiledHelpMessenger;
 use crate::domain::help::HelpMessenger;
 
-pub struct PrefixConfigurableHelpService {
+pub struct PrefixConfigurableHelpService<'prefixes> {
     // todo: consider Cow here
-    prefix: String,
-    operator_prefix: String,
+    prefix: &'prefixes str,
+    operator_prefix: &'prefixes str,
 }
 
-impl PrefixConfigurableHelpService {
-    pub fn new(prefix: &str, operator_prefix: &str) -> Self {
+impl<'prefixes> PrefixConfigurableHelpService<'prefixes> {
+    pub fn new(prefix: &'prefixes str, operator_prefix: &'prefixes str) -> Self {
         Self {
-            prefix: prefix.into(),
-            operator_prefix: operator_prefix.into(),
+            prefix,
+            operator_prefix,
         }
     }
 }
 
-impl HelpService for PrefixConfigurableHelpService {
+impl<'prefixes> HelpService for PrefixConfigurableHelpService<'prefixes> {
     fn help(&self, help_level: HelpLevel) -> String {
         // todo: make it mockable
         match help_level {
