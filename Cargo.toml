@@ -9,10 +9,10 @@ edition = "2021"
 [dependencies]
 tokio = { version = "1", features = ["full"] }
 serenity = { version = "0.10", features = ["framework"] }
+thiserror = "1.0"
 structopt = "0.3"
 async-trait = "0.1"
-mockall = "0.10"
 
 [dev-dependencies]
-cucumber = "0.10"
 test-case = "1.2"
+mockall = "0.10"
