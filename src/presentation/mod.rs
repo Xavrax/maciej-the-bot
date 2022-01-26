@@ -21,7 +21,8 @@ impl Bot {
     pub async fn run(bot_builder: BotBuilder) -> Result<(), crate::Error> {
         let serenity_framework = StandardFramework::new()
             .configure(|c| c.prefix(&bot_builder.prefix))
-            .group(&groups::GENERAL_GROUP);
+            .group(&groups::GENERAL_GROUP)
+            .group(&groups::OPERATOR_GROUP);
 
         let mut client = Client::builder(bot_builder.token)
             .event_handler(handlers::Handler)

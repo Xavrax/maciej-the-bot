@@ -1,4 +1,7 @@
-use crate::presentation::commands::help::{HELP_COMMAND, H_COMMAND};
+use crate::presentation::commands::help::{
+    operator::HELP_COMMAND as OPHELP_COMMAND,
+    user::{HELP_COMMAND, H_COMMAND},
+};
 use serenity::framework::standard::macros::group;
 
 #[group]
@@ -6,8 +9,8 @@ use serenity::framework::standard::macros::group;
 #[commands(h, help)]
 struct General;
 
-// #[group]
-// #[only_in(guilds)]
-// #[prefixes("op")]
-// #[commands(ophelp)]
-// struct Operator;
+#[group]
+#[only_in(guilds)]
+#[prefixes("op")]
+#[commands(ophelp)]
+struct Operator;
