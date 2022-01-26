@@ -21,10 +21,8 @@ impl<'prefixes> HelpService for PrefixConfigurableHelpService<'prefixes> {
     fn help(&self, help_level: HelpLevel) -> String {
         // todo: make it mockable
         match help_level {
-            HelpLevel::User => CompiledHelpMessenger::user(&self.prefix),
-            HelpLevel::Operator => {
-                CompiledHelpMessenger::admin(&self.prefix, &self.operator_prefix)
-            }
+            HelpLevel::User => CompiledHelpMessenger::user(self.prefix),
+            HelpLevel::Operator => CompiledHelpMessenger::admin(self.prefix, self.operator_prefix),
         }
         .help_message()
     }

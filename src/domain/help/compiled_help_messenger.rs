@@ -14,8 +14,8 @@ impl CompiledHelpMessenger {
     pub fn admin(prefix: &str, operator_prefix: &str) -> Self {
         Self {
             message: include_str!("../../../messages/op_help.txt")
-                .replace("{prefix}", &prefix)
-                .replace("{op_prefix}", &operator_prefix),
+                .replace("{prefix}", prefix)
+                .replace("{op_prefix}", operator_prefix),
         }
     }
 }
