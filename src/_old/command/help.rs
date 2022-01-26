@@ -41,8 +41,10 @@ impl Command for HelpCommand {
         };
 
         let message = match self.level {
-            HelpLevel::User => include_str!("../../messages/help.txt").replace("{prefix}", &prefix),
-            HelpLevel::Operator => include_str!("../../messages/op_help.txt")
+            HelpLevel::User => {
+                include_str!("../../../messages/help.txt").replace("{prefix}", &prefix)
+            }
+            HelpLevel::Operator => include_str!("../../../messages/op_help.txt")
                 .replace("{prefix}", &prefix)
                 .replace("{op_prefix}", &operator_prefix),
         };
