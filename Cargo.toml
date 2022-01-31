@@ -12,6 +12,8 @@ serenity = { version = "0.10", features = ["framework"] }
 thiserror = "1.0"
 structopt = "0.3"
 async-trait = "0.1"
+log = "0.4"
+env_logger = "0.9"
 
 [dev-dependencies]
 test-case = "1.2"

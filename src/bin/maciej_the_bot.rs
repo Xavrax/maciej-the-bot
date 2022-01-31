@@ -1,9 +1,10 @@
+use log::info;
 use maciej_the_bot::presentation::Bot;
 use structopt::StructOpt;
 
 /// Maciej-the-bot is simple discord bot written in Rust
 /// that uses [serenity-rs](https://github.com/serenity-rs/serenity) as a backend.
-#[derive(StructOpt)]
+#[derive(StructOpt, Debug)]
 struct Opt {
     /// Prefix, which triggers bot
     #[structopt(short, long, env, default_value = "!")]
@@ -17,6 +18,10 @@ struct Opt {
 #[tokio::main]
 async fn main() -> Result<(), maciej_the_bot::Error> {
     let config = Opt::from_args();
+
+    env_logger::init();
+    info!("Maciej The Bot {}", env!("CARGO_PKG_VERSION"));
+    info!("Launched with: {:?}", config);
 
     // todo: add dynamic prefix
     let op_prefix = "op";
