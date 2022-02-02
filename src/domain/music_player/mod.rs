@@ -2,8 +2,6 @@ use async_trait::async_trait;
 use songbird::input as songbird;
 use thiserror::Error;
 
-use crate::Error;
-
 pub mod youtube_player;
 
 #[derive(Error, Debug)]

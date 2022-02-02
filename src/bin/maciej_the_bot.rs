@@ -1,8 +1,6 @@
 use log::info;
 use maciej_the_bot::presentation::Bot;
-use maciej_the_bot::Error;
-use serenity::futures::StreamExt;
-use std::fmt::{Debug, Formatter};
+use std::fmt::Debug;
 use structopt::StructOpt;
 
 /// Maciej-the-bot is simple discord bot written in Rust

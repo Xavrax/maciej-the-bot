@@ -2,7 +2,6 @@ use crate::domain::music_player::{MusicPlayer, PlayerError};
 use async_trait::async_trait;
 use songbird::input::{ytdl_search, Input};
 use songbird::ytdl;
-use std::fmt::Debug;
 
 #[derive(Default)]
 pub struct YoutubePlayer;
