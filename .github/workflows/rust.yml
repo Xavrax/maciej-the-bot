@@ -20,6 +20,8 @@ jobs:
       run: cargo build
     - name: Run tests
       run: cargo test
+    - name: Run expensive tests
+      run: cargo test -- --ignored
       
   lints:
   
