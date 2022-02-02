@@ -33,7 +33,7 @@ mod should {
     use super::*;
 
     #[test]
-    fn should_select_help_based_on_permission_level() {
+    fn select_help_based_on_permission_level() {
         let sut = PrefixConfigurableHelpService::new("user", "operator");
 
         let user_help = sut.help(HelpLevel::User);

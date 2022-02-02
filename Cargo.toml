@@ -9,6 +9,7 @@ edition = "2021"
 [dependencies]
 tokio = { version = "1", features = ["full"] }
 serenity = { version = "0.10", features = ["framework"] }
+songbird = "0.2"
 thiserror = "1.0"
 structopt = "0.3"
 async-trait = "0.1"
