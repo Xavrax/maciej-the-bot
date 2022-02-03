@@ -1,23 +1,23 @@
-use crate::domain::music_player::{MusicPlayer, PlayerError};
+use crate::domain::music_library::{MusicInput, MusicLibrary, PlayerError};
 use async_trait::async_trait;
 use songbird::input::{ytdl_search, Input};
 use songbird::ytdl;
 
 #[derive(Default)]
-pub struct YoutubePlayer;
+pub struct YoutubeLibrary;
 
 #[async_trait]
-impl MusicPlayer for YoutubePlayer {
-    async fn get_song_by_name(&self, song_name: &str) -> Result<Input, PlayerError> {
+impl MusicLibrary for YoutubeLibrary {
+    async fn get_song_by_name(&self, song_name: &str) -> Result<MusicInput, PlayerError> {
         match ytdl_search(song_name).await {
-            Ok(song) => Ok(song),
+            Ok(song) => Ok(MusicInput::Youtube(song)),
             Err(err) => Err(PlayerError::CannotDownload(err.to_string())),
         }
     }
 
-    async fn get_song_by_url(&self, url: &str) -> Result<Input, PlayerError> {
+    async fn get_song_by_url(&self, url: &str) -> Result<MusicInput, PlayerError> {
         match ytdl(url).await {
-            Ok(song) => Ok(song),
+            Ok(song) => Ok(MusicInput::Youtube(song)),
             Err(err) => Err(PlayerError::CannotDownload(err.to_string())),
         }
     }
@@ -35,7 +35,7 @@ mod should {
     async fn search_for_song_with_provided_name() {
         let song_name = "never gonna give you up";
 
-        let sut = YoutubePlayer::default();
+        let sut = YoutubeLibrary::default();
 
         let song = sut.get_song_by_name(song_name).await;
 
@@ -47,7 +47,7 @@ mod should {
     async fn search_for_song_with_provided_url() {
         let song_name = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
 
-        let sut = YoutubePlayer::default();
+        let sut = YoutubeLibrary::default();
 
         let song = sut.get_song_by_url(song_name).await;
 
