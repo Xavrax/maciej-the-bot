@@ -1,4 +1,4 @@
-use crate::domain::music_library::{MusicInput, MusicLibrary, PlayerError};
+use crate::domain::music::music_library::{MusicInput, MusicLibrary, PlayerError};
 use async_trait::async_trait;
 use songbird::input::{ytdl_search, Input};
 use songbird::ytdl;
