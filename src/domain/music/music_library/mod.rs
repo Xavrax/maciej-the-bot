@@ -1,3 +1,4 @@
+use crate::domain::MusicInput;
 use async_trait::async_trait;
 use songbird::input as songbird;
 use thiserror::Error;
@@ -8,11 +9,6 @@ pub mod youtube_library;
 pub enum PlayerError {
     #[error("Downloading song failed: {0}")]
     CannotDownload(String),
-}
-
-pub enum MusicInput {
-    Dummy,
-    Youtube(songbird::Input),
 }
 
 #[async_trait]
