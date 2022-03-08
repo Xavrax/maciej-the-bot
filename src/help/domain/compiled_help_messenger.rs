@@ -1,4 +1,4 @@
-use crate::domain::help::HelpMessenger;
+use crate::help::domain::HelpMessenger;
 
 pub struct CompiledHelpMessenger {
     message: String,
