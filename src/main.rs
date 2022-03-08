@@ -1,5 +1,4 @@
 use log::info;
-use maciej_the_bot::presentation::Bot;
 use std::fmt::Debug;
 use structopt::StructOpt;
 
@@ -27,11 +26,11 @@ async fn main() -> Result<(), maciej_the_bot::Error> {
     // todo: add dynamic prefix
     let op_prefix = "op";
 
-    Bot::configure(config.token)
-        .with_prefix(config.prefix)
-        .with_operator_prefix(op_prefix)
-        .run()
-        .await?;
+    // Bot::configure(config.token)
+    //     .with_prefix(config.prefix)
+    //     .with_operator_prefix(op_prefix)
+    //     .run()
+    //     .await?;
 
     Ok(())
 }
