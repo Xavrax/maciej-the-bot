@@ -1,9 +1,12 @@
+use crate::config_repository::ConfigRepository;
 use async_trait::async_trait;
 use serenity::client::EventHandler;
 use serenity::framework::StandardFramework;
 use serenity::Client;
 
-pub mod help;
+pub mod config_repository;
+mod help;
+mod minecraft;
 
 pub struct Handler;
 
@@ -27,12 +30,23 @@ impl Bot {
         let serenity_framework = StandardFramework::new()
             .configure(|c| c.prefix(&bot_builder.prefix))
             .group(&help::HELP_GROUP)
-            .group(&help::OPERATORHELP_GROUP);
+            .group(&help::OPERATORHELP_GROUP)
+            .group(&minecraft::MINECRAFT_GROUP);
 
         let mut client = Client::builder(bot_builder.token)
             .event_handler(Handler)
             .framework(serenity_framework)
             .await?;
+
+        {
+            let mut data = client.data.write().await;
+
+            data.insert::<ConfigRepository>(ConfigRepository::create(
+                bot_builder.ftp_ip,
+                bot_builder.ftp_login,
+                bot_builder.ftp_passwd,
+            ))
+        }
 
         client.start().await?;
 
@@ -43,8 +57,13 @@ impl Bot {
 #[derive(Default)]
 pub struct BotBuilder {
     token: String,
+
     prefix: String,
     operator_prefix: String,
+
+    ftp_login: String,
+    ftp_passwd: String,
+    ftp_ip: String,
 }
 
 impl BotBuilder {
@@ -62,6 +81,17 @@ impl BotBuilder {
         S: Into<String>,
     {
         self.operator_prefix = operator_prefix.into();
+
+        self
+    }
+
+    pub fn with_ftp_credentials<S>(mut self, ip: S, login: S, passwd: S) -> Self
+    where
+        S: Into<String>,
+    {
+        self.ftp_ip = ip.into();
+        self.ftp_login = login.into();
+        self.ftp_passwd = passwd.into();
 
         self
     }
