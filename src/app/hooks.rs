@@ -1,7 +1,7 @@
 use rand::prelude::IteratorRandom;
 use serenity::{
     all::Message,
-    framework::standard::{macros::hook, Reason},
+    framework::standard::{macros::hook, CommandResult, Reason},
     futures::TryFutureExt,
     prelude::Context,
 };
@@ -18,7 +18,7 @@ pub async fn before(_ctx: &Context, msg: &Message, cmd_name: &str) -> bool {
 }
 
 #[hook]
-pub async fn after(ctx: &Context, msg: &Message, cmd_name: &str, result: Result<(), Reason>) {
+pub async fn after(ctx: &Context, msg: &Message, cmd_name: &str, result: CommandResult) {
     result
         .map(|_| {
             log::info!(
