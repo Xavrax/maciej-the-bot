@@ -24,7 +24,7 @@ struct General;
 #[serenity::async_trait]
 impl EventHandler for Handler {
     async fn message(&self, _: Context, msg: Message) {
-        log::info!("Got message by {}: '{:?}'", msg.author.name, msg);
+        log::debug!("Got message by {}: '{:?}'", msg.author.name, msg);
     }
 
     async fn ready(&self, _: Context, ready: Ready) {

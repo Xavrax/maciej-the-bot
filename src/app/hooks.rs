@@ -19,7 +19,7 @@ pub async fn before(_ctx: &Context, msg: &Message, cmd_name: &str) -> bool {
 
 #[hook]
 pub async fn after(ctx: &Context, msg: &Message, cmd_name: &str, result: CommandResult) {
-    result
+    let _ = result
         .map(|_| {
             log::info!(
                 "Processed command '{}' for user '{}'",
