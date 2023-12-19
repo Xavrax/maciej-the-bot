@@ -4,7 +4,7 @@ use serenity::{
     all::{Message, Ready},
     framework::{
         standard::{
-            macros::{command, group},
+            macros::{group},
             Configuration,
         },
         StandardFramework,

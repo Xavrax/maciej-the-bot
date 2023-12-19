@@ -1,8 +1,7 @@
 use rand::prelude::IteratorRandom;
 use serenity::{
     all::Message,
-    framework::standard::{macros::hook, CommandResult, Reason},
-    futures::TryFutureExt,
+    framework::standard::{macros::hook, CommandResult},
     prelude::Context,
 };
 
@@ -51,7 +50,7 @@ pub async fn unknown_command(ctx: &Context, msg: &Message, unknown_command_name:
     );
 
     let answer = include_str!("../../assets/unknown_command.txt")
-        .split("\n")
+        .split('\n')
         .choose(&mut rand::thread_rng())
         .unwrap_or("Sorry, I don't know that one.");
 
